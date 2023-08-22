@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import Table from "./components/Table/Table";
 import { generateRandomNumberArr, generateTable } from "./utils/utils";
@@ -6,14 +6,23 @@ import Header from "./components/Header/Header";
 import { SquareProps } from "./types";
 
 function App() {
+  const [gameOver, setGameOver] = useState<boolean>(false);
   const [tableArr, setTableArr] = useState<SquareProps[]>([]);
-  const size = 10;
-  const numberOfMines = 10;
+  const [newTableSize, setNewTableSize] = useState<number>(30);
+  const [size, setSize] = useState<number>(30);
+  const [numberOfMines, setNumberOfMines] = useState<number>(100);
 
   const handleGenerateTable = () => {
-    const minesArr = generateRandomNumberArr(numberOfMines, size * size);
-    setTableArr(generateTable(size, minesArr, size));
+    setSize(newTableSize);
+    setGameOver(false);
   };
+
+  useEffect(() => {
+    if (!gameOver) {
+      const minesArr = generateRandomNumberArr(numberOfMines, size * size);
+      setTableArr(generateTable(size, minesArr, size));
+    }
+  }, [size, gameOver, numberOfMines]);
 
   const arr: number[] = [];
 
@@ -28,6 +37,12 @@ function App() {
   };
 
   const handleSquareClick = (id: number) => {
+    if (gameOver) {
+      return;
+    }
+    if (tableArr[id].isMine) {
+      setGameOver(true);
+    }
     if (!arr.includes(id)) {
       arr.push(id);
     }
@@ -71,12 +86,18 @@ function App() {
 
   return (
     <div className="App">
-      <Header generateTable={handleGenerateTable} />
+      <Header
+        generateTable={handleGenerateTable}
+        gameOver={gameOver}
+        size={newTableSize}
+        setSize={setNewTableSize}
+      />
       <Table
         squaresPerRow={size}
         tableArr={tableArr}
         handleSquareClick={handleSquareClick}
       />
+      {gameOver && <div>Game Over</div>}
     </div>
   );
 }

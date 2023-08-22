@@ -7,4 +7,7 @@ export interface SquareProps {
 
 export interface HeaderProps {
   generateTable: () => void;
+  gameOver: boolean;
+  size: number;
+  setSize: (size: number) => void;
 }
