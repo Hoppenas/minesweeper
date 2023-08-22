@@ -84,6 +84,15 @@ function App() {
     openSquare(arr);
   };
 
+  const handleRightClick = (id: number) => {
+    const newValue = !tableArr[id].flag;
+    setTableArr((prevState) => {
+      const updatedArr = [...prevState];
+      updatedArr[id].flag = newValue;
+      return updatedArr;
+    });
+  };
+
   return (
     <div className="App">
       <Header
@@ -91,13 +100,31 @@ function App() {
         gameOver={gameOver}
         size={newTableSize}
         setSize={setNewTableSize}
+        numberOfMines={numberOfMines}
+        setNumberOfMines={setNumberOfMines}
       />
       <Table
         squaresPerRow={size}
         tableArr={tableArr}
         handleSquareClick={handleSquareClick}
+        handleRightClick={handleRightClick}
+        gameOver={gameOver}
       />
-      {gameOver && <div>Game Over</div>}
+      {gameOver && (
+        <div
+          style={{
+            position: "absolute",
+            left: "45%",
+            top: "45%",
+            background: "#FFF",
+            border: "2px solid black",
+            borderRadius: "10px",
+            padding: "30px 60px",
+          }}
+        >
+          Game Over
+        </div>
+      )}
     </div>
   );
 }

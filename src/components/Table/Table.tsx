@@ -7,12 +7,16 @@ export interface TableProps {
   squaresPerRow: number;
   tableArr: SquareProps[];
   handleSquareClick: (id: number) => void;
+  handleRightClick: (id: number) => void;
+  gameOver: boolean;
 }
 
 const Table: React.FC<TableProps> = ({
   squaresPerRow,
   tableArr,
   handleSquareClick,
+  handleRightClick,
+  gameOver,
 }) => {
   return (
     <div className="table" style={{ width: `${squaresPerRow * 30}px` }}>
@@ -23,7 +27,10 @@ const Table: React.FC<TableProps> = ({
           isMine={square.isMine}
           nearbyMines={square.nearbyMines}
           isOpen={square.isOpen}
+          flag={square.flag}
           handleSquareClick={handleSquareClick}
+          handleRightClick={handleRightClick}
+          gameOver={gameOver}
         />
       ))}
     </div>

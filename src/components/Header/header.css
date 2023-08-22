@@ -1,4 +1,8 @@
 .header {
     width: 100%;
-    background-color: green;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+    justify-content: center;
+    gap: 10px;
 }

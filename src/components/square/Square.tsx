@@ -11,6 +11,8 @@ const squareType = {
 
 export interface squareFieldProps extends SquareProps {
   handleSquareClick: (id: number) => void;
+  handleRightClick: (id: number) => void;
+  gameOver: boolean;
 }
 
 const Square: React.FC<squareFieldProps> = ({
@@ -18,20 +20,25 @@ const Square: React.FC<squareFieldProps> = ({
   isMine,
   nearbyMines,
   isOpen,
+  flag,
   handleSquareClick,
+  handleRightClick,
+  gameOver,
 }) => {
-  //   const [isOpen, setIsOpen] = useState<boolean>(false);
-  //   const handleSquareClick = () => {
-  //     setIsOpen(true);
-  //   };
   return (
     <button
       className={`square ${isOpen && "square__open"}`}
       onClick={() => handleSquareClick(id)}
+      onContextMenu={(e) => {
+        e.preventDefault();
+        handleRightClick(id);
+      }}
     >
-      {isOpen && isMine && "X"}
+      {((gameOver && isMine) || (isOpen && isMine)) && <div>&#128165;</div>}
       {isOpen && !isMine && nearbyMines !== 0 && `${nearbyMines}`}
-      {/* {id} */}
+      {!gameOver && !isOpen && flag && (
+        <div style={{ fontSize: "16px" }}>&#x1F6A9;</div>
+      )}
     </button>
   );
 };

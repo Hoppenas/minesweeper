@@ -3,6 +3,7 @@ export interface SquareProps {
   isMine: boolean;
   nearbyMines: number;
   isOpen: boolean;
+  flag: boolean;
 }
 
 export interface HeaderProps {
@@ -10,4 +11,6 @@ export interface HeaderProps {
   gameOver: boolean;
   size: number;
   setSize: (size: number) => void;
+  numberOfMines: number;
+  setNumberOfMines: (numberOfMines: number) => void;
 }

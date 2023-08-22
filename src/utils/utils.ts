@@ -38,6 +38,7 @@ export const generateTable = (
       isMine: minesArr.includes(i),
       nearbyMines: nearbyMinesCalculator(i, rowLength, minesArr),
       isOpen: false,
+      flag: false,
     };
   });
   return array;
