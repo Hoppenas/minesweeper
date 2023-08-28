@@ -11,10 +11,12 @@ function App() {
   const [newTableSize, setNewTableSize] = useState<number>(30);
   const [size, setSize] = useState<number>(30);
   const [numberOfMines, setNumberOfMines] = useState<number>(100);
+  const [won, setWon] = useState<boolean>(false);
 
   const handleGenerateTable = () => {
     setSize(newTableSize);
     setGameOver(false);
+    setWon(false);
   };
 
   useEffect(() => {
@@ -24,9 +26,18 @@ function App() {
     }
   }, [size, gameOver, numberOfMines]);
 
+  useEffect(() => {
+    const allSquaresOpen =
+      tableArr.filter((square) => !square.isMine && square.isOpen).length === 0;
+    if (allSquaresOpen) {
+      setWon(true);
+    }
+  }, [tableArr]);
+
   const arr: number[] = [];
 
   const openSquare = (arr: number[]) => {
+    console.log(arr);
     setTableArr((prevState) => {
       const updatedArr = [...prevState];
       arr.forEach((square) => {
@@ -43,6 +54,7 @@ function App() {
     if (tableArr[id].isMine) {
       setGameOver(true);
     }
+
     if (!arr.includes(id)) {
       arr.push(id);
     }
@@ -97,7 +109,7 @@ function App() {
     <div className="App">
       <Header
         generateTable={handleGenerateTable}
-        gameOver={gameOver}
+        gameOver={gameOver || won}
         size={newTableSize}
         setSize={setNewTableSize}
         numberOfMines={numberOfMines}
@@ -108,7 +120,7 @@ function App() {
         tableArr={tableArr}
         handleSquareClick={handleSquareClick}
         handleRightClick={handleRightClick}
-        gameOver={gameOver}
+        gameOver={gameOver || won}
       />
       {gameOver && (
         <div
@@ -123,6 +135,21 @@ function App() {
           }}
         >
           Game Over
+        </div>
+      )}
+      {won && (
+        <div
+          style={{
+            position: "absolute",
+            left: "45%",
+            top: "45%",
+            background: "#FFF",
+            border: "2px solid black",
+            borderRadius: "10px",
+            padding: "30px 60px",
+          }}
+        >
+          You won!!!
         </div>
       )}
     </div>
