@@ -1,14 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import "./square.css";
 import { SquareProps } from "../../types";
 import { theme } from "../../theme";
-
-const squareType = {
-  MINE: "mine",
-  FLAG: "flag",
-  NUMBER: "number",
-  EMPTY: "empty",
-};
 
 export interface squareFieldProps extends SquareProps {
   handleSquareClick: (id: number) => void;

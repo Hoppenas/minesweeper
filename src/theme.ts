@@ -13,7 +13,6 @@ export const theme = {
     ],
     other: {
       darkGrey: "rgb(189, 189, 189)",
-      lightGrey: "rgb(189, 189, 189)",
     },
   },
 };
