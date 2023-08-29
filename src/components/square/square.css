@@ -1,11 +1,13 @@
 .square {
     width: 30px;
     height: 30px;
-    border: 1px solid green;
+    border: 5px solid ;
+    border-style: outset;
     background-color: bisque;
     box-sizing: border-box;
 }
 
 .square__open {
-    background-color: brown;
+    background-color: rgb(189, 189, 189);
+    border: 1px solid grey;
 }

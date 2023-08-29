@@ -4,6 +4,7 @@ import Table from "./components/Table/Table";
 import { generateRandomNumberArr, generateTable } from "./utils/utils";
 import Header from "./components/Header/Header";
 import { SquareProps } from "./types";
+import Popup from "./components/Popup/Popup";
 
 function App() {
   const [gameOver, setGameOver] = useState<boolean>(false);
@@ -20,15 +21,16 @@ function App() {
   };
 
   useEffect(() => {
-    if (!gameOver) {
+    if (!gameOver || !won) {
       const minesArr = generateRandomNumberArr(numberOfMines, size * size);
       setTableArr(generateTable(size, minesArr, size));
     }
-  }, [size, gameOver, numberOfMines]);
+  }, [size, gameOver, numberOfMines, won]);
 
   useEffect(() => {
     const allSquaresOpen =
-      tableArr.filter((square) => !square.isMine && square.isOpen).length === 0;
+      tableArr.filter((square) => !square.isMine && !square.isOpen).length ===
+      0;
     if (allSquaresOpen) {
       setWon(true);
     }
@@ -37,7 +39,6 @@ function App() {
   const arr: number[] = [];
 
   const openSquare = (arr: number[]) => {
-    console.log(arr);
     setTableArr((prevState) => {
       const updatedArr = [...prevState];
       arr.forEach((square) => {
@@ -48,7 +49,7 @@ function App() {
   };
 
   const handleSquareClick = (id: number) => {
-    if (gameOver) {
+    if (gameOver || won) {
       return;
     }
     if (tableArr[id].isMine) {
@@ -122,36 +123,8 @@ function App() {
         handleRightClick={handleRightClick}
         gameOver={gameOver || won}
       />
-      {gameOver && (
-        <div
-          style={{
-            position: "absolute",
-            left: "45%",
-            top: "45%",
-            background: "#FFF",
-            border: "2px solid black",
-            borderRadius: "10px",
-            padding: "30px 60px",
-          }}
-        >
-          Game Over
-        </div>
-      )}
-      {won && (
-        <div
-          style={{
-            position: "absolute",
-            left: "45%",
-            top: "45%",
-            background: "#FFF",
-            border: "2px solid black",
-            borderRadius: "10px",
-            padding: "30px 60px",
-          }}
-        >
-          You won!!!
-        </div>
-      )}
+      {gameOver && <Popup name="Game Over" />}
+      {won && <Popup name="You won!!!" />}
     </div>
   );
 }
